@@ -1,0 +1,48 @@
+---
+title: "TidyVerse_ACA_OP"
+author: "Omar Pineda"
+date: "4/1/2019"
+output: html_document
+---
+
+In this tutorial, I will show how to use the str_detect() function to see whether a poll's question uses a certain term, Obamacare, and show whether that affects the poll's results.
+
+Below is some information on the function. Source: https://www.rdocumentation.org/packages/stringr/versions/1.4.0/topics/str_detect
+
+Usage
+str_detect(string, pattern, negate = FALSE)
+
+Arguments
+string: Input vector. Either a character vector, or something coercible to one.
+
+pattern: Pattern to look for. The default interpretation is a regular expression, as described in stringi::stringi-search-regex. Control options with regex().
+
+Match a fixed string (i.e. by comparing only bytes), using fixed(). This is fast, but approximate. Generally, for matching human text, you'll want coll() which respects character matching rules for the specified locale.
+
+Match character, word, line and sentence boundaries with boundary(). An empty pattern, "", is equivalent to boundary("character").
+
+negate: If TRUE, return non-matching elements.
+
+```{r load}
+library(tidyverse)
+ratings <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/ahca-polls/ahca_polls.csv")
+ratings
+```
+
+Next, we would like to see which polls used the term "Obamacare" when they asked pollers on whether they were in favor of or opposed the AHCA.
+
+```{r wide2tall}
+ratings$obama <- str_detect(ratings$Text, "Obamacare")
+ratings
+```
+
+Now we can calculate the average percentage of those in favor for polls that used the term "Obamacare" versus those that did not. 
+
+Results: the average 'Favor' rating is .17% higher if the poll included the term "Obamacare", and the average 'Oppose' rating is 3.03% higher if the poll included the term "Obamacare".
+
+```{r averageRating}
+meanFavor <- aggregate(ratings$Favor, by=list(ratings$obama), FUN=mean)
+meanOppose <- aggregate(ratings$Oppose, by=list(ratings$obama), FUN=mean)
+meanFavor
+meanOppose
+```
