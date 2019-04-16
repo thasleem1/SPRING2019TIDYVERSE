@@ -46,3 +46,22 @@ meanOppose <- aggregate(ratings$Oppose, by=list(ratings$obama), FUN=mean)
 meanFavor
 meanOppose
 ```
+To graph the data, we will need to tidy the data using the `gather` function. *Favor* and *Oppose* appear in a combined column called *Vote*.
+```{r}
+nratings<- ratings %>% gather(`Favor`, `Oppose`, key = Vote, value = Total)
+head(nratings)
+```
+
+Now the filter is set to conditions where the obama column is set to True.
+```{r}
+nfratings<- filter(nratings, obama== TRUE)
+head(nfratings)
+```
+
+Now the data is graphed.
+```{r}
+nfratings %>%
+ggplot(aes(Total, color=Vote)) + geom_bar () +
+ facet_wrap(~Pollster)
+```
+
