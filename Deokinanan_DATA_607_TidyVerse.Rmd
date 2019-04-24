@@ -291,7 +291,7 @@ plotradar <- function (omega = "x", start = 0, direction = 1) {
     "y"
   else "x"
   ggproto("CordRadar", CoordPolar, theta = omega, r = r, start = start, direction = sign(direction), is_linear = function(coord) TRUE)}
-colors <- c(adjustcolor("forestgreen",alpha.f=0.5), adjustcolor("darkgoldenrod2",alpha.f=0.5), adjustcolor("firebrick4",alpha.f=0.5))
+color <- c(adjustcolor("forestgreen",alpha.f=0.5), adjustcolor("darkgoldenrod2",alpha.f=0.5), adjustcolor("firebrick4",alpha.f=0.5))
 # ggplot(rs, aes(x = feature, y = mean, scale_fill_manual(values=color))) + geom_polygon(aes(group = language, color = language), fill="#88d8c0", size = 1, alpha=0.2) + geom_line(aes(group = language, color = language), size = 1) + xlab("SHINee's Album") +  ylab("Features") + ylim(-5,1) + guides(color = guide_legend(ncol=2)) +  plotradar() + guides(colour=guide_legend(nrow=4, byrow=TRUE), shape=guide_legend(nrow=1, byrow=TRUE)) + scale_colour_manual(values=color) + theme(axis.ticks.y = element_blank(), axis.text.y = element_blank(), legend.key = element_blank(), legend.title = element_blank(), legend.background = element_rect(color="#ffffff", fill="transparent"), panel.background = element_rect(fill = "white", colour = "white", size = 0.1, linetype = "solid"), panel.grid.major = element_line(size = 0.1, linetype = 'solid', colour = "#dddddd"))
 ```
 </details>
