@@ -1,6 +1,14 @@
 # SPRING2019TIDYVERSE
 CUNY DATA 607 Spring 2019 Tidyverse recipes
 
+Samantha Deokinanan's Tidyverse Recipe:
+
+My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visulizations the can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way.
+
+rpub: http://rpubs.com/greeneyefirefly/data607-tidyverse
+
+***
+
 In this assignment, you’ll practice collaborating around a code project with GitHub.  You could consider our collective work as building out a book of examples on how to use TidyVerse functions.
 
 GitHub repository:  https://github.com/acatlin/SPRING2019TIDYVERSE
