@@ -3,7 +3,7 @@ CUNY DATA 607 Spring 2019 Tidyverse recipes
 
 Samantha Deokinanan's Tidyverse Recipe:
 
-My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visulizations the can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way.
+My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visualizations that can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way.
 
 rpub: http://rpubs.com/greeneyefirefly/data607-tidyverse
 
