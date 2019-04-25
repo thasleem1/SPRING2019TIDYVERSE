@@ -21,4 +21,8 @@ You should complete both parts of the assignment and make your submission no lat
 
 ***
 
-hello
+UPDATE:
+
+I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here:
+
+http://rpubs.com/ilawl/490256
