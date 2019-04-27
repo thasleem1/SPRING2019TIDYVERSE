@@ -1,3 +1,11 @@
+Part 1 : https://rpubs.com/Priya_Shaji/tidyverse
+
+Part 2: 
+
+Github Link : 
+
+For Part 2 request submitted with pull request : 
+
 Tidyverse Assignment
 ================
 
