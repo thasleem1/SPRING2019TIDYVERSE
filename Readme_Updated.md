@@ -2,7 +2,7 @@ Part 1 : https://rpubs.com/Priya_Shaji/tidyverse
 
 Part 2: 
 
-Github Link :  
+Github Link : https://github.com/PriyaShaji/SPRING2019TIDYVERSE
 
 For Part 2 request submitted with pull request : 
 
