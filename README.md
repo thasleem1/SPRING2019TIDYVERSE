@@ -18,3 +18,15 @@ You should clone the provided repository.  Once you have code to submit, you sho
 After you’ve completed both parts of the assignment, please submit your GitHub handle name in the submission link provided in the week 1 folder!  This will let your instructor know that your work is ready to be graded.
 
 You should complete both parts of the assignment and make your submission no later than end of day on Sunday, May 5th.
+
+---------------------------------------------------------------
+Hello,
+
+I have created a brief vignette showing the different appraoches to some common data wrangling tasks using base R versus tidyverse.
+
+The associated data set has been posted on github: https://raw.githubusercontent.com/Jagdish16/jagdish_r_repo/master/DATA607/camera_dataset.csv
+ and the html file can be found here: bs.com/Jagdish/ds607_tidyverse_vignette
+ 
+ Thanks,
+ Jagdish Chhabria.
+ 
