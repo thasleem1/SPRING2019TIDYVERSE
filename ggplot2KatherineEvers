@@ -41,7 +41,9 @@ library(ggmap)
 ```{r, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
 #Import data from csv file downloaded from kaggle
 #URL: https://www.kaggle.com/sl6149/data-scientist-job-market-in-the-us/version/4
+
 data <- read.csv("alldata.csv")
+
 #Turn data from the 'maps' package into a dataframe for plotting with 'ggplot2'
 states <- map_data("state")
 ```
@@ -55,16 +57,22 @@ state <- gsub('[[:digit:]]+', '', data$location)
 state <- str_extract(state, '\\b[^,]+$')
 #Remove spaces
 state <- gsub("[[:space:]]", "", state)
+
 #Bind vector to dataframe
 df <- cbind(data, state)
+
 #Use 'dply' package to group data by state and put count frequencies in new variable
 df2 <- df %>%
   group_by(state) %>% 
   mutate(count = n())
+  
 #Create subset of data
 finalDf <- subset(df2, select = c(state, count))
+#Remove dupliates
 finalDf <- unique(finalDf, by = "state")
+#Remove rows with NA
 finalDf <- na.omit(finalDf)
+
 #Replace state abbreviation with full name
 finalDf$state <- gsub("GA", "georgia", finalDf$state)
 finalDf$state <- gsub( "TX","texas", finalDf$state)
@@ -77,12 +85,13 @@ finalDf$state <- gsub("CA", "california", finalDf$state)
 finalDf$state <- gsub("NY", "new york", finalDf$state)
 finalDf$state <- gsub("NJ", "new jersey", finalDf$state)
 finalDf$state <- gsub("WA", "washington", finalDf$state)
+
 #Change column name
 colnames(finalDf)[colnames(finalDf) == "state"] <- "region"
+
 #Use left_join to attach job counts to every point on polygons (borders) of the states
 coord <- left_join(states, finalDf, by = "region")
 ```
-
 
 #Visualize Data
 ```{r}
@@ -90,16 +99,20 @@ coord <- left_join(states, finalDf, by = "region")
 states_base <- ggplot(data = states, mapping = aes(x = long, y = lat, group = group)) + 
   coord_fixed(1.3) + 
   geom_polygon(color = "black", fill = "grey")
+  
 states_base 
+
 #Shade states by job posting counts
 plot <- states_base + 
       geom_polygon(data = coord, aes(fill = count), color = "grey") +
       geom_polygon(color = "black", fill = NA) +
       theme_bw()
 plot
+
 #Change color scale
 plot + scale_fill_gradientn(colours = rev(rainbow(7)),
                          breaks = c(2, 4, 10, 100, 1000, 10000),
                          trans = "log10")
+                         
 #From the plot, we see that overall there are more data scientist jobs postings for locations on the east and west coasts than in the south (with the exception of New Jersey)
 ```
