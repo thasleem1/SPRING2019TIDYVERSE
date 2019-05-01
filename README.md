@@ -1,6 +1,18 @@
 # SPRING2019TIDYVERSE
 CUNY DATA 607 Spring 2019 Tidyverse recipes
 
+Samantha Deokinanan's Tidyverse Recipe:
+
+My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visualizations that can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way. For the second part, I expanded on [Jimmy Ng's](https://github.com/myvioletrose/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd) tidyverse recipe as I have never used `dplyr::case_when`, and thought `dplyr::if_else` and `dplyr::recode` could produced the same outputs. 
+
+RPUB:
+
+Part 1: http://rpubs.com/greeneyefirefly/data607-tidyverse-p1
+
+Part 2: http://rpubs.com/greeneyefirefly/data607-tidyverse-p2
+
+***
+
 In this assignment, you’ll practice collaborating around a code project with GitHub.  You could consider our collective work as building out a book of examples on how to use TidyVerse functions.
 
 GitHub repository:  https://github.com/acatlin/SPRING2019TIDYVERSE
