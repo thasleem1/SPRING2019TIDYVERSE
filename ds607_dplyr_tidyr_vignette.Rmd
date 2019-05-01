@@ -1,0 +1,141 @@
+---
+title: "ds607_dplyr_tidyr_vignette"
+author: "Jagdish Chhabria"
+date: "April 28, 2019"
+
+output: 
+    html_document:
+    css: ./lab.css
+    highlight: pygments
+    theme: cerulean
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+## Introduction
+
+In this vignette, I attempt to show the differences in how certain operations are performed using  base R versus using Tidyverse packages dplyr and tidyr. 
+
+### Data
+
+I will be using a dataset from Kaggle to demonstrate the differences in base R versus Tidyverse functions. This dataset provides information on 13 attributes of 1000 different camera models. It can be found at the following link; https://www.kaggle.com/crawford/1000-cameras-dataset/
+
+Let's start by loading the data.
+
+```{r}
+# Load the required packages
+
+library(readr)
+library(tibble)
+library(dplyr)
+library(tidyr)
+
+# Read in the required dataset and look at its column names and first few rows
+
+cameras<-read.csv("https://raw.githubusercontent.com/Jagdish16/jagdish_r_repo/master/DATA607/camera_dataset.csv")
+
+head(cameras)
+
+colnames(cameras)
+```
+
+### Extracting variables
+
+```{r }
+
+# In base R
+
+head(cameras[, c("Model", "Max.resolution", "Low.resolution","Effective.pixels", "Price")]) # by variable name
+head(cameras[, c(1,3,4,5,13)])  # by column index
+
+
+# In tidyverse
+
+head(select(cameras, Model,Max.resolution, Low.resolution,Effective.pixels, Price)) # by variable name
+head(select(cameras, 1,3,4,5,13))  # by column index
+
+```
+
+
+### Making new variables
+
+```{r}
+
+# In base R
+
+cameras$Average.resolution = (cameras$Max.resolution + cameras$Low.resolution)/2
+head(cameras$Average.resolution)
+
+
+# In tidyverse
+
+head(mutate(cameras, 
+       Average.resolution = ((cameras$Max.resolution+cameras$Low.resolution)/2)
+       ))
+
+```
+
+
+### Extracting observations
+
+```{r}
+
+# In base R
+
+# Using subset
+subset(cameras, Weight..inc..batteries. < 400 & Release.date == "2005")
+
+# Using [,]
+#cameras[Weight..inc..batteries. < 400 & Release.date == "2005", ]
+
+
+# In tidyverse
+
+filter(cameras, Weight..inc..batteries. < 400 & Release.date == "2005")
+
+
+```
+
+
+### Sorting observations
+
+```{r}
+
+# In base R
+
+# descending order of price
+head(cameras[order(rev(cameras$Price)),])
+
+# In tidyverse
+
+# descending order of species
+head(arrange(cameras, desc(Price)))
+
+
+```
+
+
+
+### Summarizing observations
+
+```{r}
+
+# In base R
+
+data.frame(Price.mean = mean(cameras$Price),
+           Price.sd = sd(cameras$Price)
+           )
+
+# In tidyverse
+
+summarise(cameras, 
+          Petal.Length.mean = mean(Price),
+          Petal.Length.sd = sd(Price),
+        )
+
+```
+
+The above examples illustrate the differences in how certain common operations in data wrangling are carried out in tidyverse vis-a-vis base R. Hope this vignette helps demonstrate the difference in the 2 approaches.
+
+
