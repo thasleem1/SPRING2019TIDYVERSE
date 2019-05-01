@@ -1,0 +1,147 @@
+---
+title: "CUNY MSDS Data 607 TidyVerse"
+date: "April 26, 2019"
+output: html_document
+---
+
+*** 
+
+## { .tabset}
+
+> Jimmy Ng's Tidyverse Recipe
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Code can be found on [Jimmy Ng's Github](https://github.com/myvioletrose/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd).**
+
+Let's load the tidyverse package and then load a sample data set from my github account. The original dataset comes from [kaggle](https://www.kaggle.com/vjchoudhary7/customer-segmentation-tutorial-in-python#Mall_Customers.csv). We will look at packages under the tidyverse, functions within "dplyr", and eventually zoom in into a specific dplyr function "case_when" with a sample use case.
+
+***
+### Set-up
+```{r set-up, include = T, message = F, warning = F}
+# load package(s)
+library(tidyverse)
+library(janitor)
+library(kableExtra)
+# load data
+df <- read.csv("https://raw.githubusercontent.com/myvioletrose/school_of_professional_studies/master/607.%20Data%20Acquisition%20and%20Management/%23%20misc/Mall_Customers.csv") %>% 
+        janitor::clean_names(.)  # using janitor::clean_names() to clean up column names
+head(df) %>% kable() %>% kable_styling()
+```
+
+***
+### tidyverse packages
+```{r tidyverse_packages}
+# how many packages live under the tidyverse?
+tidyverse_packages()
+```
+
+***
+### dplyr
+```{r dplyr}
+# how many functions within "dplyr"?
+ls(pos = "package:dplyr")
+```
+
+***
+### dplyr::case_when
+
+Here's an official description: *This function allows you to vectorise multiple if_else() statements. It is an R equivalent of the SQL CASE WHEN statement. If no cases match, NA is returned.*
+```{r case_when}
+# let's create a new variable using case_when by transforming a numeric variable into buckets
+# let's look at the distribution - before transformation
+hist(df$annual_income_k, main = "Annual Income (before transformation)")
+# let's create 10 buckets to represent this numeric variable
+buckets <- cut(df$annual_income_k, breaks = 10) %>% levels
+buckets
+# create a new categorical variable
+df$income_bucket <- cut(df$annual_income_k, breaks = 10)
+df <- df %>%
+        dplyr::mutate(income_bucket = dplyr::case_when(income_bucket == buckets[1] ~ "income level 0",
+                                                       income_bucket == buckets[2] ~ "income level 1",
+                                                       income_bucket == buckets[3] ~ "income level 2",
+                                                       income_bucket == buckets[4] ~ "income level 3",
+                                                       income_bucket == buckets[5] ~ "income level 4",
+                                                       income_bucket == buckets[6] ~ "income level 5",
+                                                       income_bucket == buckets[7] ~ "income level 6",
+                                                       income_bucket == buckets[8] ~ "income level 7",
+                                                       income_bucket == buckets[9] ~ "income level 8",
+                                                       income_bucket == buckets[10] ~ "income level 9",
+                                                       TRUE ~ as.character(income_bucket)))
+head(df) %>% kable() %>% kable_styling()
+# let's look at the distribution - after transformation
+table(df$income_bucket) %>% barplot(., ylab = "Frequency", main = "Annual Income (after transformation)")
+```
+
+
+***
+
+## { .tabset}
+
+> Samantha Deokinanan's Extentions
+
+I found [Jimmy Ng's](https://github.com/myvioletrose/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd) tidyverse recipe very helpful as I have never used `dplyr::case_when`, thus I am extending this discussion with two (2) other `dplyr` functions, namely `dplyr::if_else` and `dplyr::recode`. I selected these fuctions because I thought they could have produced the same outputs as `case_when` (particularly `recode`) but there all have there differences and usefulness.   
+
+***
+### dplyr::if_else
+
+This function is more strict than `base::ifelse` such that it will preserve the data type. `if_else` work great when a single set of conditions is to be satisfied. But if multiple sets of conditions are to be tested, nested `if_else` statements become cumbersome and thus prone to error. The following code highlights an example of nested `if_else` statements from what Jimmy Ng demonstrated:
+
+```{r}
+# Reset to df just before Jimmy Ng applied `dplyr::case_when` 
+# i.e. create a new categorical variable
+df$income_bucket <- cut(df$annual_income_k, breaks = 10)
+
+df1 <- df %>%
+        dplyr::mutate(income_bucket = 
+                        dplyr::if_else(income_bucket == buckets[1], "income level 0",
+                        dplyr::if_else(income_bucket == buckets[2], "income level 1",
+                        dplyr::if_else(income_bucket == buckets[3], "income level 2",
+                        dplyr::if_else(income_bucket == buckets[4], "income level 3",
+                        dplyr::if_else(income_bucket == buckets[5], "income level 4",
+                        dplyr::if_else(income_bucket == buckets[6], "income level 5",
+                        dplyr::if_else(income_bucket == buckets[7], "income level 6",
+                        dplyr::if_else(income_bucket == buckets[8], "income level 7",
+                        dplyr::if_else(income_bucket == buckets[9], "income level 8", "income level 9"))))))))))
+
+head(df1) %>% kable() %>% kable_styling()
+
+str(df1)
+```
+
+Since `buckets` were already stored as character, the `income_buckets` categories were preserved without any errors. If `buckets` were numeric, then it would have to be converted into characters beforehand.
+
+***
+### dplyr::recode
+
+Another solution is to use the `dplyr::recode` function, as it is well suited for replacing values but it will not allow for more complex operations. Let's look at it again with Jimmy Ng's example:
+
+```{r}
+df2 <- df %>%
+        mutate(income_bucket = 
+dplyr::recode(income_bucket, "(14.9,27.2]" = "income level 0",
+                             "(27.2,39.4]" = "income level 1",
+                             "(39.4,51.6]" = "income level 2",
+                             "(51.6,63.8]" = "income level 3",
+                             "(63.8,76]" = "income level 4",
+                             "(76,88.2]" = "income level 5",
+                             "(88.2,100]" = "income level 6",
+                             "(100,113]" = "income level 7",
+                             "(113,125]" = "income level 8", 
+                             "(125,137]" = "income level 9"))
+
+head(df2) %>% kable() %>% kable_styling()
+
+str(df2)
+```
+
+Here, the recoded `income_bucket` was stored as a factor. 
+
+***
+### Conclusion
+
+In the end, `dplyr` provides multiple functions that can be used when you want to create an output value that is conditioned on an evaluation. The right function can make the transformation less cumbersome.
+
+***

@@ -1,6 +1,18 @@
 # SPRING2019TIDYVERSE
 CUNY DATA 607 Spring 2019 Tidyverse recipes
 
+Samantha Deokinanan's Tidyverse Recipe:
+
+My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visualizations that can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way. For the second part, I expanded on [Jimmy Ng's](https://github.com/myvioletrose/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd) tidyverse recipe as I have never used `dplyr::case_when`, and thought `dplyr::if_else` and `dplyr::recode` could produced the same outputs. 
+
+RPUB:
+
+Part 1: http://rpubs.com/greeneyefirefly/data607-tidyverse-p1
+
+Part 2: http://rpubs.com/greeneyefirefly/data607-tidyverse-p2
+
+***
+
 In this assignment, you’ll practice collaborating around a code project with GitHub.  You could consider our collective work as building out a book of examples on how to use TidyVerse functions.
 
 GitHub repository:  https://github.com/acatlin/SPRING2019TIDYVERSE
@@ -19,6 +31,26 @@ After you’ve completed both parts of the assignment, please submit your GitHub
 
 You should complete both parts of the assignment and make your submission no later than end of day on Sunday, May 5th.
 
+
 ### Magrittr Piping Example
 
 Provides a comparison of performing data wrangling on a heart disease dataset with and without using the %>% and %<>% Magrittr pipe operators.
+=======
+*****************************************************************************************************************************************
+## The packages chosen for this assignment are Purrr and Stringr
+=======
+---------------------------------------------------------------
+Hello,
+
+I have created a brief vignette showing the different appraoches to some common data wrangling tasks using base R versus tidyverse.
+
+The associated data set has been posted on github: https://raw.githubusercontent.com/Jagdish16/jagdish_r_repo/master/DATA607/camera_dataset.csv
+ and the html file can be found here: bs.com/Jagdish/ds607_tidyverse_vignette
+ 
+ Thanks,
+ Jagdish Chhabria.
+ 
+I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here:
+
+http://rpubs.com/ilawl/490256
+

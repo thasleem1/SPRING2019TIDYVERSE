@@ -1,0 +1,21 @@
+```r
+library(tidyverse)
+
+## Using readr to read csv
+df <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/drug-use-by-age/drug-use-by-age.csv')
+
+## Using tidyr to group drugs
+  df %>% 
+    mutate(marijuanaQuantity = 'marijuana-use'*'marijuana-frequency'*n) %>%
+    select(age, marijuanaQuantity) 
+
+
+
+## Using dplyr to filter above  3 alcohol-frequecy
+df %>% 
+  filter('alcohol-frequency' > 3)
+
+df %>% 
+  arrange(desc('marijuana-frequency'))
+
+```
