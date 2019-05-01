@@ -1,5 +1,4 @@
-# SPRING2019TIDYVERSE
-## CUNY DATA 607 Spring 2019 Tidyverse recipes
+# CUNY DATA 607 Spring 2019 Tidyverse recipes
 
 You have two tasks:
 
