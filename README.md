@@ -30,3 +30,6 @@ The associated data set has been posted on github: https://raw.githubusercontent
  Thanks,
  Jagdish Chhabria.
  
+I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here:
+
+http://rpubs.com/ilawl/490256
