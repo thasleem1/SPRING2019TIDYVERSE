@@ -19,6 +19,9 @@ After you’ve completed both parts of the assignment, please submit your GitHub
 
 You should complete both parts of the assignment and make your submission no later than end of day on Sunday, May 5th.
 
+*****************************************************************************************************************************************
+## The packages chosen for this assignment are Purrr and Stringr
+=======
 ---------------------------------------------------------------
 Hello,
 
@@ -33,3 +36,4 @@ The associated data set has been posted on github: https://raw.githubusercontent
 I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here:
 
 http://rpubs.com/ilawl/490256
+
