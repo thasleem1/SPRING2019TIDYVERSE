@@ -1,0 +1,161 @@
+---
+title: "Forcats"
+author: "Lewris Mota"
+date: "April 29, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(forcats)
+```
+
+
+##Forcats
+
+R uses factors to handle categorical variables, variables that have a fixed and known set of possible values. Factors are also helpful for reordering character vectors to improve display. The goal of the forcats package is to provide a suite of tools that solve common problems with factors, including changing the order of levels or the values. 
+
+###Iris Dataset Overview
+```{r}
+levels(iris$Species)
+
+##Number of levels.
+nlevels(iris$Species)
+
+iris$Species %>% class()
+
+```
+
+###Forcats Frequency Count
+
+As the title suggest, this function counts how many times a specific factors appears in a column.
+
+Frequency table of factors
+```{r}
+
+
+iris$Species %>% fct_count()
+```
+
+###Dropping Levels
+
+In order to understand the need of dropping levels, I am going to filter the setosa species from the dataset and assign it to a new variable setosa_dt.
+```{r}
+
+setosa_dt <- iris %>% filter(.$Species=="setosa")
+
+setosa_dt$Species %>% levels()
+setosa_dt$Species %>% nlevels()
+```
+As we can see, even though we filtered the data for the specie setosa, we can still see the levels associated to the original dataframe.
+
+If we want to eliminate those factors that are not present, we can use the function fct_drop for deleting those factors and only keeping the existing ones in the current dataset.
+```{r}
+#setosa_dt$Species %>% droplevels() 
+setosa_only <- setosa_dt$Species %>% fct_drop()
+setosa_only %>% levels()
+setosa_only %>% nlevels()
+```
+As you can see, the other extra factors are not present.
+
+##Reordering and Relevering
+
+
+### Reordering
+Reordering is useful when we want to display information in certain order(either ascending or descending).
+
+
+```{r}
+set.seed(183)
+index <- sample(1:NROW(iris),size = 80,replace = FALSE) 
+
+
+iris_sampled <- iris[index,]
+iris_sampled$Sepal.Length <- iris_sampled$Sepal.Length %>% as.numeric() 
+```
+
+Reordering example:
+```{r}
+iris_sampled %>% ggplot(aes(y= .$Sepal.Length,x = fct_reorder(.$Species,.$Sepal.Length)))+geom_point()
+```
+As we can observe, the data points are arranged in ascending order.
+
+```{r}
+iris_sampled %>% ggplot(aes(y= .$Sepal.Length,x = fct_reorder(.$Species,.$Sepal.Length,.desc = TRUE)))+geom_point()
+```
+And in this example, the data is reordered as descending.
+
+
+Also, we can reorder factors by inverting the order like this:
+```{r}
+iris$Species %>% fct_rev() %>% levels()
+```
+
+Where the original order of levels was:
+```{r}
+iris$Species %>% levels()
+```
+
+
+###Relevering
+
+In this example, we can relevel a factor, which means that we can change the order of any factor we want. In this case, we made versicolor the first factor, while the other factors are organized according to the order of occurrence they had before.
+
+relevered factor:
+```{r}
+iris_rel <- iris$Species %>% fct_relevel("versicolor") 
+iris_rel %>% levels()
+```
+
+Where the original order of factors was:
+```{r}
+iris$Species %>% levels()
+```
+
+
+We can also rename factors using the recode function:
+```{r}
+iris$Species %>% fct_recode("ver"="versicolor","set"="setosa") %>% levels()
+```
+besides the factor, the other parameters for the function are the new factor name in quotes = to the name of the existing factor. Then, you can see that the new variable has its factors renamed.
+
+
+
+###Combining levels:
+
+Sometimes a categorical variable may have two or more factor levels that refer to the same group or that you simply want to group together. In this situation, one can use fct_collapse() to combine those levels into one. 
+
+```{r}
+new_iris <- iris$Species %>% fct_collapse("setosa-versicolor"=c("setosa","versicolor"))
+new_iris %>% levels()
+```
+you can use this vector of new levels and assign it to the categorical column you wanted to combine.
+
+###Managing NA values
+
+Sometimes, the is the situation when we want to create a new level that represents missing values in our data, or simply, we want to get rid of NA values. For this purpose, we can use the use the function fct_explicit_na.
+
+In oirder to provide an example, I am going to assign NA values to the iris dataset.
+```{r}
+iris$Species[c(149,150)] <- ""
+iris %>% tail()
+```
+
+Now lets use the fct_explicit_na for assigning a value to that variable easily.
+```{r}
+iris$Species <- iris$Species %>% fct_explicit_na(na_level = "unavailable") 
+iris %>% tail()
+```
+As we can see, the two last observations are now assigned with an "unavailable" value.
+
+
+###Limping infrequent factors
+
+
+You can also use forcats in order to group the factors that are less frequent in one category. In this case, the unavailable factor that was created in the last example is the less frequent, therefore the function will assign it with any factor name we decide or with the value "other" by default.
+
+```{r}
+iris$Species %>% fct_lump(other_level = "Other")
+```
+
