@@ -18,7 +18,13 @@ In this assignment, you’ll practice collaborating around a code project with G
 * FiveThirtyEight.com datasets:  https://data.fivethirtyeight.com/
 * Kaggle datasets:  https://www.kaggle.com/datasets
 
-### Samantha Deokinanan's Tidyverse Recipe:
+## dplyr
+
+### Ryan Gordon - mutate_all(), mutate_if(), mutate_at(), http://rpubs.com/rg563/TidyVerse_mutate
+
+## ggplot2
+
+### Samantha Deokinanan
 
 My aim is to demonstrate how tidyverse's `ggplot2` can create basic and advanced visualizations that can capture valuable information, and provide a clear, analytical representation of the data in an easily understandable way. For the second part, I expanded on [Jimmy Ng's](https://github.com/myvioletrose/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd) tidyverse recipe as I have never used `dplyr::case_when`, and thought `dplyr::if_else` and `dplyr::recode` could produced the same outputs. 
 
@@ -34,19 +40,24 @@ Part 2: http://rpubs.com/greeneyefirefly/data607-tidyverse-p2
 
 Provides a comparison of performing data wrangling on a heart disease dataset with and without using the %>% and %<>% Magrittr pipe operators.
 
-### The packages chosen for this assignment are Purrr and Stringr
+## purrr
 
-Hello,
 
-I have created a brief vignette showing the different appraoches to some common data wrangling tasks using base R versus tidyverse.
+### Javern Wilson
+The packages chosen for this assignment are Purrr and Stringr
+https://github.com/acatlin/SPRING2019TIDYVERSE/blob/master/DATA607%20Tidyverse%20Assignment.Rmd
+
+## base R vs. tidyverse
+
+### Jadgish Chhabria
+
+I have created a brief vignette showing the different approaches to some common data wrangling tasks using base R versus tidyverse.
 
 The associated data set has been posted on github: https://raw.githubusercontent.com/Jagdish16/jagdish_r_repo/master/DATA607/camera_dataset.csv
  and the html file can be found here: bs.com/Jagdish/ds607_tidyverse_vignette
- 
- Thanks,
- Jagdish Chhabria.
- 
-I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here:
 
-http://rpubs.com/ilawl/490256
+## tibbles
+ 
+### Austin Chan
+I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here: http://rpubs.com/ilawl/490256
 
