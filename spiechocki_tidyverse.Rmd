@@ -1,0 +1,87 @@
+---
+title: "Tidyverse Recipe"
+author: "Sheryl Piechocki"
+date: "April 2, 2019"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(tidyverse)
+library(forcats)
+```
+
+## Forcats Package  
+### Vignette Demonstrating fct_infreq, fct_relevel, fct_other functions  
+
+The **forcats** package is useful when dealing with categorical variables in the form of factors.  It contains functions that help with reordering factor levels and modifying factor levels.  This vignette focuses on **fct_infreq**, **fct_relevel**, and **fct_other**. 
+
+The data used to demonstrate these functions is from a survey asking people how they like their steak prepared and can be found here: https://github.com/fivethirtyeight/data/tree/master/steak-survey.  
+
+#### Load the data and subset to only keep respondents that answered 'Yes' they do eat steak.    
+
+```{r load, warning=FALSE, message=FALSE}
+steak <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/steak-survey/steak-risk-survey.csv")
+steak <- subset(steak, Do.you.eat.steak. == "Yes")
+```
+
+A bar chart of how respondents like their steak prepared follows. As you can see, the order of the responses in the chart is haphazard and not visually appealing.    
+
+```{r chart, warning=FALSE, message=FALSE}
+ggplot(steak, aes(x = How.do.you.like.your.steak.prepared.)) + 
+  geom_bar() +  coord_flip() + xlab("Steak Preparation") + ylab("Number of Respondents")
+```
+
+#### fct_infreq  
+The **fct_infreq** function from the forcats package will order the categorical variable by frequency.  **ordered** is a logical that determines the ordered status of the output factor.  If **ordered** is NA, it will keep the existing status of the factor.  
+
+fct_infreq(f, ordered = NA)  
+
+The resulting bar chart has a better appearance and is easier to analyze visually.  
+```{r freq, warning=FALSE, message=FALSE}
+ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.))) + 
+  geom_bar() +  coord_flip() + xlab("Steak Preparation") + ylab("Number of Respondents")
+```
+
+Grouping the data by the age category and creating bar charts yields the following chart.  The age categories are in no particular order.  The missing category is first, following by the >60 category, then it moves on to the 18-29 age category, etc.  Logically, the age categories should display in the correct order of numerical age.  
+```{r age, warning=FALSE, message=FALSE}
+ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.))) + 
+  geom_bar() +  coord_flip() + xlab("Steak Preparation") + ylab("Number of Respondents") + facet_wrap(~Age)
+```
+
+#### fct_relevel  
+The **fct_relevel** function from the forcats package allows for factor reordering.  As arguments, it takes the factor, the level to be reordered, and after = (some number) that specifies where to move that level.  
+
+fct_relevel(.f, character level, after = a number)  
+
+It defaults to moving to the front, but you can move it after another level with the argument **after**. To move it to the end you set **after = Inf**.  Below example moves the "> 60" category to the 5th position by using after = 4.   
+```{r relevel, warning=FALSE, message=FALSE}
+
+steak$Age <- fct_relevel(steak$Age, "> 60", after = 4)
+#steak$Age <- fct_other(steak$Age, drop = "", other_level = "Missing")
+
+ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.))) + 
+  geom_bar() +  coord_flip() + xlab("Steak Preparation") + ylab("Number of Respondents") + facet_wrap(~Age)
+
+```
+
+These bar charts are in age order, but it would make more sense to put the chart for the missing data at the end.  This can be accomplished using the **fct_other** function from the forcats package.  
+
+####fct_other  
+**fct_other** will replace levels with "other".  It takes the factor, keep or drop, and other_level as arguments.  
+
+fct_other(f, keep, drop, other_level = "Other")  
+
+**keep** will keep the listed levels, replacing any not in the list with other_level.  **drop** will replace the listed levels with other_level.  **other_level** is the value used for other values and it is always placed at the end of the levels.  In the following code, the level for missing values "" is listed in the drop and other_level has the value "Missing".  This will result in the missing values category getting the new label of "Missing" and will place it at the end of the levels.  The resulting plots are ordered as we would expect and more aesthetically pleasing.   
+```{r relevel2, warning=FALSE, message=FALSE}
+
+steak$Age <- fct_other(steak$Age, drop = "", other_level = "Missing")
+
+ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.))) + 
+  geom_bar() +  coord_flip() + xlab("Steak Preparation") + ylab("Number of Respondents") + facet_wrap(~Age)
+
+```
+
+As you can see, the forcats package provides various functions that make it easier to deal with categorical data in the form of factors.   
