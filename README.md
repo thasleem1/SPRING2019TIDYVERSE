@@ -21,6 +21,7 @@ In this assignment, you’ll practice collaborating around a code project with G
 ## dplyr
 
 ### Ryan Gordon - mutate_all(), mutate_if(), mutate_at(), http://rpubs.com/rg563/TidyVerse_mutate
+### Jimmy Ng - case_when, https://github.com/acatlin/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd
 
 ## ggplot2
 
