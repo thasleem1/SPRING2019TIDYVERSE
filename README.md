@@ -31,6 +31,11 @@ After you’ve completed both parts of the assignment, please submit your GitHub
 
 You should complete both parts of the assignment and make your submission no later than end of day on Sunday, May 5th.
 
+
+### Magrittr Piping Example
+
+Provides a comparison of performing data wrangling on a heart disease dataset with and without using the %>% and %<>% Magrittr pipe operators.
+=======
 *****************************************************************************************************************************************
 ## The packages chosen for this assignment are Purrr and Stringr
 =======
