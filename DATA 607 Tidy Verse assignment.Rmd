@@ -1,0 +1,66 @@
+---
+title: "DATA 607 Tidy Verse assignment"
+author: "Yohannes Deboch"
+date: "February 24, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# 1.Create an Example.Using one or more TidyVerse packages, and any dataset from fivethirtyeight.com or Kaggle, create a programming sample “vignette” that demonstrates how to use one or more of the capabilities of the selected TidyVerse package with your selected dataset.
+
+## Load the library
+```{r}
+library(tidyverse)
+```
+## Data source
+https://www.kaggle.com/ronitf/heart-disease-uci
+
+## Read the data using readr
+
+```{r}
+disease <- read_csv("heart.csv")
+head(disease)
+```
+
+
+The selected package I want to use id dplyr.
+
+## Capability 1.
+
+### filter capability tutorial
+
+### Description
+
+Using filter we can select rows of the data frame matching conditions.
+
+### Usage
+filter(data)
+### Example
+
+To select the people of over 20 and less than 65 we can pass the data disease and condtion age>20 and age < 65 to the function . It'll return matching rows of heart disease.
+
+```{r}
+filter(disease, age>20 & age < 65)
+```
+
+## Capability 2.
+
+### select capability tutorial
+
+###Description
+
+Using select we can keep the selected variables
+
+###sage
+select(data, ...)
+
+###Example
+
+To keep only age, sex,cp variable we can pass the data disease and age, sex,cp to the function . 
+
+```{r}
+df<- select(disease, c("age","sex","cp"))
+head(df)
+```
