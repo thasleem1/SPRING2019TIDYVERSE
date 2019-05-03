@@ -1,0 +1,59 @@
+---
+title: "Tidyverse Vignette - Parsing dates with Lubridate"
+author: "John Perez"
+date: "5/2/2019"
+output: html_document
+---
+
+## Lubridate package
+
+### Vignette Demonstrating the ymd(), month() functions  
+
+The **lubridate** package is a useful tookit for parsing and manipulating dates. Its parsing functions read strings into R as POSIXct date-time objects. 
+
+The data used to demonstrate these functions is from the **us-weather-history** dataset found on fivethirtyeight's github. 
+
+#### Load the data  
+
+```{r, message=FALSE}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+data<- "https://raw.githubusercontent.com/fivethirtyeight/data/master/us-weather-history/KCLT.csv"
+df <- read.csv(data, header = TRUE, stringsAsFactors = FALSE)
+
+```
+
+If we look at the date column, we see that it is currently a character vector.  Note that the dates in this dataset are in the y/m/d format. We will use the appropriate lubridate function to parse them.  
+
+```{r}
+class(df$date)
+head(df$date)
+```
+#### Convert date to POSIXt  
+
+Below, we'll convert this to a POSIXt date object.  When converting a date to POSIXt it is stored internally as the number of days or seconds from some reference date. As a result, it can be interpreted or manipulated as needed.  
+
+```{r}
+df$p_dates <- ymd(df$date)
+class(df$p_dates)
+head(df$p_dates)
+```
+
+#### Extract individual elements of the date  
+
+Now we can extract the individual elements of the date.  This allows easy analysis based on the dates. Below we will extract the months and plot the average max temperature per month using **ggplot**.  
+
+```{r}
+df$months <- as.factor(month(df$p_dates))
+
+temps <- df %>% group_by(months) %>% summarize(avg_max_temp = mean(actual_max_temp))
+
+ggplot(temps, aes(x=months,y=avg_max_temp, group=1)) + geom_line()
+```
+
+As shown, lubridate provides an easy way to interpret dates and extract date elements. 
+
+One final note, while lubridate is part of tidyverse package, when importing using **library(tidyverse)**,
+R studio would give an error when knitting that it could not find the "ymd" function. This error does not appear if you import the package individually.  
+

@@ -84,4 +84,16 @@ ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.))) +
 
 ```
 
+Finally, the data can also be represented in stacked bar charts with the different Age levels being represented by colors. This can be done using ggplot2.  
+
+```{r stacked bar, warning=FALSE, message=FALSE}
+
+steak$Age <- fct_other(steak$Age, drop = "", other_level = "Missing")
+
+ggplot(steak, aes(x = fct_infreq(How.do.you.like.your.steak.prepared.), fill=Age)) + 
+  geom_bar() + xlab("Steak Preparation") + coord_flip() 
+
+```
+
+
 As you can see, the forcats package provides various functions that make it easier to deal with categorical data in the form of factors.   
