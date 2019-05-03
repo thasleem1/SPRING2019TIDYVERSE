@@ -22,7 +22,8 @@ In this assignment, you’ll practice collaborating around a code project with G
 
 ### Ryan Gordon - mutate_all(), mutate_if(), mutate_at(), http://rpubs.com/rg563/TidyVerse_mutate
 ### Jimmy Ng - case_when, https://github.com/acatlin/SPRING2019TIDYVERSE/blob/master/tidyverse_recipe_case_when_JN.Rmd
-
+### David Apolinar: Part 1 group_by, arrange, summarise, https://github.com/dapolloxp/SPRING2019TIDYVERSE-1/blob/master/tidyverseDavidA.Rmd
+### Part 2: https://github.com/dapolloxp/SPRING2019TIDYVERSE-1/blob/master/perez_tidyverse_lubridate.Rmd
 ## ggplot2
 
 ### Samantha Deokinanan
@@ -40,6 +41,9 @@ Part 2: http://rpubs.com/greeneyefirefly/data607-tidyverse-p2
 ### Magrittr Piping Example
 
 Provides a comparison of performing data wrangling on a heart disease dataset with and without using the %>% and %<>% Magrittr pipe operators.
+
+David Apolinar: https://github.com/dapolloxp/SPRING2019TIDYVERSE-1/blob/master/tidyverseDavidA.Rmd
+Extensions in John Perez's: https://github.com/dapolloxp/SPRING2019TIDYVERSE-1/blob/master/perez_tidyverse_lubridate.Rmd
 
 ## purrr
 
