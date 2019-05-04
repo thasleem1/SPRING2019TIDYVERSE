@@ -66,3 +66,7 @@ The associated data set has been posted on github: https://raw.githubusercontent
 ### Austin Chan
 I decided to do my tidyverse assignment on the tibbles package. The rmarkdown code has been posted to this repository and the html file can be found here: http://rpubs.com/ilawl/490256
 
+## Nest and Unnest
+
+### Isabel R.
+I will focus on how to use the `Nest` and `Unnest` functions utilizing data from *FiveThirtyEight*,"How Popular Is Donald Trump?" from the trump-approval-ratings data set. The rmarkdown code has been posted to this repository and the html file can be found here: http://rpubs.com/IsabelR/TidyVerseAssignment

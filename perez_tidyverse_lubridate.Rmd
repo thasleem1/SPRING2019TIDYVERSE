@@ -1,6 +1,6 @@
 ---
 title: "Tidyverse Vignette - Parsing dates with Lubridate"
-author: "John Perez, David Apolinar"
+authors: "John Perez, David Apolinar"
 date: "5/2/2019"
 output: html_document
 ---
@@ -20,6 +20,7 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 library(ggthemes)
+
 data<- "https://raw.githubusercontent.com/fivethirtyeight/data/master/us-weather-history/KCLT.csv"
 df <- read.csv(data, header = TRUE, stringsAsFactors = FALSE)
 
@@ -58,7 +59,6 @@ As shown, lubridate provides an easy way to interpret dates and extract date ele
 One final note, while lubridate is part of tidyverse package, when importing using **library(tidyverse)**,
 R studio would give an error when knitting that it could not find the "ymd" function. This error does not appear if you import the package individually.  
 
-
 # Extension - David Apolinar
 
 In this section, I used additional libraries, e.g. mutate, group_by, and scatterplot. I created additional columns from John's dataset. I also added additional ggplot graphs based on that data and used the various different themes.
@@ -74,3 +74,5 @@ percip.by.year <- sub %>% group_by(Year) %>% summarise(AvgPerip=mean(average_pre
 ggplot(percip.by.month, aes(x=Month,y=AvgPerip), group=1) + geom_point(color='darkblue') + geom_smooth(method="auto", se=TRUE, fullrange=FALSE, level=0.95) +xlab("Precipitation") + theme_economist() + theme(axis.text.x = element_text(angle = 90))
 ggplot(percip.by.year, aes(x=Year,y=AvgPerip), group=1) + geom_point(color='blue') + geom_smooth(method="auto", se=TRUE, fullrange=FALSE, level=0.95)+xlab("Precipitation") + theme_tufte() 
 ```
+
+
