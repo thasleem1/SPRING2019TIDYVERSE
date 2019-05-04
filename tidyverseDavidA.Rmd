@@ -1,0 +1,93 @@
+---
+title: "Tidyverse Assignment"
+author: "David Apolinar"
+date: "5/3/2019"
+output:
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("tidyverse")
+library("magrittr")
+library("DT")
+```
+
+# Introduction
+
+For This tidyverse assignment, I choose to use the following libraries:
+
+* dplyr
+* ggplot2
+* magrittr
+* forcats
+
+I did not do extensive data filtering for this assignment, but rather choose to demostrate the capabilities of the tidyverse libraries.
+
+# Data Pull
+
+For my dataset, I choose to use kaggle with a gross avg rent across the US. The dataset is fairly long and has several fields. Not all are useful, but in the TidyVerse section, I use some of the ddplyr libaries to filter out what I need.
+
+```{r rent data}
+rent.data <- read.csv("https://raw.githubusercontent.com/dapolloxp/spring2019tidyverse/master/kaggle_gross_rent.csv")
+```
+
+# TidyVerse Libraries
+
+In this section, I'm using some of the tidyverse libaries, such as piping in magrittr and dplyr which make it extremely easy to filter and select fields. I also chose fields using  select in ddplyr and group_by to aggregrate information.
+
+I choose to count the number of zip codes with the piping built-into dplyr
+
+```{r }
+sub.rent.data <- rent.data %>% select(State_Name, State_ab, County, City, Place, Type, Primary, Zip_Code, Lat, Lon, Mean, Median, Stdev, Samples)
+
+sub.rent.data$Zip_Code <- as.character(sub.rent.data$Zip_Code) 
+
+head(sub.rent.data)
+#datatable(sub.rent.data)
+
+x <- function(zips)
+{
+  
+  for (i in 1:length(zips)) 
+  {
+  paste0("Processing", zips[i])
+  if(nchar(zips[i]) == 4)
+    {
+      zips[i] <- paste0("0", zips[i], sep = "")
+    }
+  
+  else if(nchar(zips[i]) == 3)
+    {
+      zips[i] <- paste0("00", zips[i], sep ="")
+    }
+  }
+  return(zips)
+}
+#sapply(sub.rent.data$Zip_Code, x)
+
+#
+
+sub.rent.data$Zip_Code <- as.factor(sub.rent.data$Zip_Code) 
+
+sub.rent.data$Zip_Code %>% fct_count(sort = TRUE)
+
+
+avg.rent.byzip <- sub.rent.data %>% group_by(Zip_Code) %>% summarise(AvgRent=mean(Mean))
+
+avg.rent.bystate <- sub.rent.data %>% group_by(State_Name) %>% summarise(AvgRent=mean(Mean))
+```
+
+# Graphing
+
+In this section, I am using ggplot to create a basic scatterplot as it is one of the most useful libraries.
+
+```{r}
+ggplot(avg.rent.byzip, aes(x=Zip_Code, y=AvgRent)) + geom_point()
+ggplot(avg.rent.bystate, aes(x=avg.rent.bystate$State_Name,y=AvgRent)) + geom_point() + theme(axis.text.x = element_text(angle = 90)) + xlab("State Name") + ylab("Average Rent")
+```
