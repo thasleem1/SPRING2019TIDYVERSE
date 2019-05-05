@@ -1,0 +1,149 @@
+---
+title: 'TidyVerse: Purrr and Stringr/ ggplot2'
+author: "Original by Javern Wilson - Extended by Mohamed"
+date: "April 24, 2019"
+output: 
+  html_document:
+    toc: false
+    code_folding: show
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    theme: flatly
+    highlight: kate
+---
+## TidyVerse Task 2 - Extend an Existing Example {.tabset .tabset-fade .tabset-pills}
+
+<li>I have extended <mark>Javern Wilson</mark> analysis to support some additional analysis with the help of graphical illustration using ggplot2 package</li> 
+<li>Please navigate the tab below for orignial and extended version code</li>
+<br>
+Javern Wilson (Orginal) Code location: https://github.com/acatlin/SPRING2019TIDYVERSE/blob/master/DATA607%20Tidyverse%20Assignment.Rmd<br>
+Mohamed (Extended) Code location : https://github.com/acatlin/SPRING2019TIDYVERSE/blob/master/tidyverse_task2_mohamed.Rmd
+<br><br>
+
+### By Javern Wilson (Orginal)
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(kableExtra)
+```
+
+<h2>Purrr</h2>
+
+Let's say we have a dataset of alcohol consumption among countries and we want to find the mean consumption of beer, spirit, wine and pure alcohol. Dataset was retrieved from [fivethirtyeight](https://github.com/fivethirtyeight/data/blob/master/alcohol-consumption/README.md).
+
+```{r}
+alcohol <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/alcohol-consumption/drinks.csv", sep = ",", stringsAsFactors = F)
+alcohol
+```
+
+<br/>
+
+With base R we would type:
+
+```{r}
+beer <- mean(alcohol$beer_servings)
+spirit <- mean(alcohol$spirit_servings)
+wine <- mean(alcohol$wine_servings)
+pure <- mean(alcohol$total_litres_of_pure_alcohol)
+
+c(beer, spirit, wine, pure)
+
+```
+
+
+As you can see, writing code like this is not very efficient because it involves a lot of copy and pasting and can make possible errors. To solve this issue of minimizing repetition with further replication, we can use `purrr`. `purrr` enhances R's functional programming (FP) toolkit by providing a complete and consistent set of tools for working with functions and vectors. 
+
+`purrr` allows you to *map* functions to data. 
+
++ map() makes a list.
++ map_lgl() makes a logical vector.
++ map_int() makes an integer vector.
++ map_dbl() makes a double vector.
++ map_chr() makes a character vector.
+
+Appropriately the basic function in purrr is called map() and it transforms the input by applying a function to each element and returning a vector the same length as the input.
+
+We can use this function to perform the same computations as above.
+
+```{r}
+map_dbl(alcohol[, c(2, 3, 4, 5)], mean)
+
+```
+
+<br/> 
+
+Pipes can also be used...
+```{r}
+alcohol[, c(2, 3, 4, 5)] %>% map_dbl(mean)
+```
+
+<br/>
+
+#### Find other 'purrr' functions [here](https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf)
+
+<br/>
+
+<h2> Stringr</h2>
+
+This package is used to manipulate strings. For instance, if we want to gather the countries beginning with letter "S" using [regular expressions](https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf) or [regexs](https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285). Patterns in stringr are interpreted as regexs.
+
+```{r}
+unlist(str_extract_all(alcohol$country, "^S.+"))
+
+```
+
+
+Or count how many countries begining with "S"
+```{r}
+str_count(alcohol$country, "^S.+")
+
+#Sum up
+sum(str_count(alcohol$country, "^S.+"))
+
+```
+
+<br/>
+
+Another is to convert the names of the columns to a title format instead of doing so individually
+```{r}
+#original 
+names(alcohol)
+kable(head(alcohol)) %>% kable_styling()
+
+#to title
+names(alcohol) <- str_to_title(names(alcohol), locale = "en")
+names(alcohol)
+kable(head(alcohol)) %>% kable_styling()
+```
+
+<br/>
+
+#### There are many other functions within the 'stringr' package that can be checked out [here](https://github.com/rstudio/cheatsheets/blob/master/strings.pdf)
+
+### By Mohamed (Extended Analysis)
+
+<h2>ggplot2</h2>
+
+<li>Identified top 10 countries consuming high level of alcohol</li>
+
+<li>Have used <mark>gather</mark> function from dplyr to transpose columns to rows</li>
+
+<li>Drawn Stacked Bar Chart to Visualize the Type of Servings among those 10 countries</li>
+<br>
+
+```{r}
+alcohol_Top10 <- alcohol %>% arrange(desc(Total_litres_of_pure_alcohol)) %>% top_n(10) %>% select(Country,Beer_servings,Spirit_servings,Wine_servings) 
+
+alcohol_gather <- alcohol_Top10 %>% gather(Type, Servings,Beer_servings,Spirit_servings,Wine_servings) %>% arrange(desc(Servings,Country))
+
+kable(alcohol_Top10) %>% kable_styling()
+
+ggplot(data = alcohol_gather, aes(x = Country, y = Servings, fill = Type)) + geom_col() + coord_flip() + scale_fill_brewer(palette = 12) + labs(title = "Top 10 alcohol Consuming Countires - Servings Type")
+
+```
+
+
