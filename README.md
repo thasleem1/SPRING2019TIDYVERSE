@@ -70,3 +70,14 @@ I decided to do my tidyverse assignment on the tibbles package. The rmarkdown co
 
 ### Isabel R.
 I will focus on how to use the `Nest` and `Unnest` functions utilizing data from *FiveThirtyEight*,"How Popular Is Donald Trump?" from the trump-approval-ratings data set. The rmarkdown code has been posted to this repository and the html file can be found here: http://rpubs.com/IsabelR/TidyVerseAssignment
+
+
+## ggplot2 - usmap
+
+### Mohamed
+Task1 - Have used the ggplot2 capabilities to extend us-map (heat waves) graphs
+Task2 - Extension of Javern Wilson Code
+
+rpubs links:
+tidyverse task1: http://rpubs.com/thasleem/d607_tva_t1
+tidyverse task2: http://rpubs.com/thasleem/d607_tva_t2
