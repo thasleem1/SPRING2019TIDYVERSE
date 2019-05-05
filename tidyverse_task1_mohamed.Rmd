@@ -1,0 +1,80 @@
+---
+title: "Tidyverse Assignment"
+author: "Mohamed Thasleem Kalikul Zaman"
+date: "May 4, 2019"
+output: 
+  html_document:
+    df_print: paged
+    theme: united
+    highlight: tango
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+---
+# Assignment
+
+<li>In this assignment, I am using US hate crime data from fivethirtyeight website, compare and visualize the hate crime and how much share contributed on some factors like unemployment, with high school degree and non-citizen</li>   
+
+# Data Used
+
+<li>Data fetched from https://raw.githubusercontent.com/fivethirtyeight/data/master/hate-crimes/hate_crimes.csv</li>
+<li>More information about data in https://github.com/fivethirtyeight/data/tree/master/hate-crimes</li>
+
+# Packages Used
+
+<li>usmap - US map graphical representation</li>
+<li>ggplot2 - Utilized the capability of ggplot along with usmap package</li>
+<li>dplyr - some data manipulation like selecting columns and mutating data values when there is 'NA' value</li><br>
+
+```{r init_lib, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(kableExtra)
+library(usmap)
+library(ggplot2)
+
+hate_crimes <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/hate-crimes/hate_crimes.csv", sep = ",", stringsAsFactors = F)
+
+per_100k_splc <- hate_crimes %>% select(state,avg_hatecrimes_per_100k_fbi,share_non_citizen,share_unemployed_seasonal,share_population_with_high_school_degree) %>% mutate(share_non_citizen = replace_na(share_non_citizen, 0)) %>% mutate(avg_hatecrimes_per_100k_fbi = replace_na(avg_hatecrimes_per_100k_fbi, 0))
+                             
+kable(data.frame(per_100k_splc)) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
+  row_spec(0, bold = T, color = "white", background = "#ea7872") %>%
+    scroll_box(width = "100%", height = "300px")
+```
+
+#Visualization
+
+```{r init_lib1, warning=FALSE, message=FALSE}
+
+
+us_crime <- plot_usmap(data = per_100k_splc, values = "avg_hatecrimes_per_100k_fbi", lines = "red",labels = TRUE) + 
+  scale_fill_continuous(
+    low = "white", high = "red", name = "US Hate Crimes"
+  ) + theme(legend.position = "right", plot.title = element_text(hjust = 0.5)) + labs(title = "US Hate Crimes")
+
+non_citizen <- plot_usmap(data = per_100k_splc, values = "share_non_citizen", lines = "red",labels = TRUE) + 
+  scale_fill_continuous(
+    low = "white", high = "red", name = "share_non_citizen"
+  ) + theme(legend.position = "right", plot.title = element_text(hjust = 0.5)) + labs(title = "Non Citizen Share of hate crime")
+
+unemployment <- plot_usmap(data = per_100k_splc, values = "share_unemployed_seasonal", lines = "red",labels = TRUE) + 
+  scale_fill_continuous(
+    low = "white", high = "red", name = "share_unemployed_seasonal"
+  ) + theme(legend.position = "right", plot.title = element_text(hjust = 0.5)) + labs(title = "Unemployment Share of hate crime")
+
+high_school_degree <- plot_usmap(data = per_100k_splc, values = "share_population_with_high_school_degree", lines = "red",labels = TRUE) + 
+  scale_fill_continuous(
+    low = "white", high = "red", name = "with School Degree"
+  ) + theme(legend.position = "right", plot.title = element_text(hjust = 0.5)) + labs(title = "With School Degree Share of hate crime")
+
+us_crime
+
+non_citizen
+
+unemployment
+
+high_school_degree
+```
+
+ 
